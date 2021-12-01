@@ -8,4 +8,6 @@
 /public/bundles/
 /var/
 /vendor/
+/bin/
+/config/packages/
 ###< symfony/framework-bundle ###
