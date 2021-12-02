@@ -3,19 +3,23 @@
     "type": "symfony-bundle",
     "license": "MIT",
     "minimum-stability": "dev",
-    "version": "1.0",
+    "version": "0.1",
     "description": "Modifying doctrine metadata so that doctrine knows that columns in the database have additional information - a comment.",
     "prefer-stable": true,
     "require": {
         "php": ">=7.4",
         "ext-ctype": "*",
-        "composer/package-versions-deprecated": "1.11.99.4",
         "doctrine/doctrine-bundle": "^2.5",
         "doctrine/orm": "^2.10",
-        "phpdocumentor/reflection-docblock": "^5.3",
+        "phpdocumentor/reflection-docblock": "^5.3"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.0",
+        "slevomat/coding-standard": "^7.0",
         "symfony/flex": "^1.17",
         "symfony/framework-bundle": ">=4.4.0",
-        "symfony/proxy-manager-bridge": ">=4.4.0"
+        "symfony/proxy-manager-bridge": ">=4.4.0",
+        "symplify/easy-coding-standard": "^9.4"
     },
     "config": {
         "optimize-autoloader": true,

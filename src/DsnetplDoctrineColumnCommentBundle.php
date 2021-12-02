@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dsnetpl\DoctrineColumnCommentBundle;
 
 use Dsnetpl\DoctrineColumnCommentBundle\DependencyInjection\DoctrineColumnCommentBundleExtension;
@@ -12,7 +14,6 @@ class DsnetplDoctrineColumnCommentBundle extends Bundle
     {
         return new DoctrineColumnCommentBundleExtension();
     }
-
 
     public function getPath(): string
     {

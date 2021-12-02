@@ -1,4 +1,7 @@
 {
+    "dealerdirect/phpcodesniffer-composer-installer": {
+        "version": "v0.7.1"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -42,19 +45,6 @@
             "src/Repository/.gitignore"
         ]
     },
-    "doctrine/doctrine-migrations-bundle": {
-        "version": "3.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.1",
-            "ref": "ee609429c9ee23e22d6fa5728211768f51ed2818"
-        },
-        "files": [
-            "config/packages/doctrine_migrations.yaml",
-            "migrations/.gitignore"
-        ]
-    },
     "doctrine/event-manager": {
         "version": "1.1.1"
     },
@@ -66,9 +56,6 @@
     },
     "doctrine/lexer": {
         "version": "1.2.1"
-    },
-    "doctrine/migrations": {
-        "version": "3.3.2"
     },
     "doctrine/orm": {
         "version": "2.10.2"
@@ -94,6 +81,12 @@
     "phpdocumentor/type-resolver": {
         "version": "1.5.1"
     },
+    "phpstan/phpdoc-parser": {
+        "version": "1.2.0"
+    },
+    "phpstan/phpstan": {
+        "version": "1.2.0"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -105,6 +98,21 @@
     },
     "psr/log": {
         "version": "1.1.4"
+    },
+    "slevomat/coding-standard": {
+        "version": "7.0.16"
+    },
+    "squizlabs/php_codesniffer": {
+        "version": "3.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.6",
+            "ref": "1019e5c08d4821cb9b77f4891f8e9c31ff20ac6f"
+        },
+        "files": [
+            "phpcs.xml.dist"
+        ]
     },
     "symfony/cache": {
         "version": "v5.4.0"
@@ -231,9 +239,6 @@
     "symfony/service-contracts": {
         "version": "v2.5.0"
     },
-    "symfony/stopwatch": {
-        "version": "v5.4.0"
-    },
     "symfony/string": {
         "version": "v5.4.0"
     },
@@ -242,6 +247,9 @@
     },
     "symfony/var-exporter": {
         "version": "v5.4.0"
+    },
+    "symplify/easy-coding-standard": {
+        "version": "9.4.70"
     },
     "webmozart/assert": {
         "version": "1.10.0"
