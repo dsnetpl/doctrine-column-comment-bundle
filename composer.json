@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "license": "MIT",
     "minimum-stability": "dev",
-    "version": "0.1",
+    "version": "0.1.0",
     "description": "Modifying doctrine metadata so that doctrine knows that columns in the database have additional information - a comment.",
     "prefer-stable": true,
     "require": {
