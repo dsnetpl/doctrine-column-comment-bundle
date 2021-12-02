@@ -6,7 +6,7 @@ Modifying doctrine metadata so that doctrine knows that columns in the database 
 $ composer require dsnetpl/ctrine-column-comment-bundle
 ```
 
-If you don't use [Symfony Flex][symfony_flex], you will need to register a bundle:
+If you don't use [Symfony Flex](https://github.com/symfony/flex), you will need to register a bundle:
 
 ```php
 # config/bundles.php
