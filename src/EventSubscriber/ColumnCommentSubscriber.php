@@ -47,8 +47,12 @@ final class ColumnCommentSubscriber implements EventSubscriber
                 continue;
             }
 
-            $f['options']['comment'] = implode('; ', array_filter([$summary, $desc]));
-            $classMetadata->fieldMappings[$key] = $f;
+            $comment = implode('; ', array_filter([$summary, $desc]));
+
+            if ($comment) {
+                $f['options']['comment'] = $comment;
+                $classMetadata->fieldMappings[$key] = $f;
+            }
         }
     }
 
