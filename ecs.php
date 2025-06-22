@@ -5,10 +5,12 @@ declare(strict_types=1);
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\CyclomaticComplexitySniff;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Metrics\NestingLevelSniff;
 use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
+use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
+use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
+use PhpCsFixer\Fixer\Operator\ConcatSpaceFixer;
 use PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
-use PhpCsFixer\Fixer\Semicolon\MultilineWhitespaceBeforeSemicolonsFixer;
-use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
+use PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer;
 use SlevomatCodingStandard\Sniffs\Arrays\DisallowImplicitArrayCreationSniff;
 use SlevomatCodingStandard\Sniffs\Classes\ClassConstantVisibilitySniff;
 use SlevomatCodingStandard\Sniffs\Classes\ClassMemberSpacingSniff;
@@ -30,82 +32,77 @@ use SlevomatCodingStandard\Sniffs\TypeHints\NullTypeHintOnLastPositionSniff;
 use SlevomatCodingStandard\Sniffs\Variables\DuplicateAssignmentToVariableSniff;
 use SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff;
 use SlevomatCodingStandard\Sniffs\Variables\UselessVariableSniff;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
-return static function (ContainerConfigurator $containerConfigurator): void
-{
-    // Parameters
-    // --------------------------------------
-
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::PATHS, [
-        __DIR__ . '/src',
-    ]);
-
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::PARALLEL, true);
-
-
-    // Containers
-    // --------------------------------------
-
+return static function (ECSConfig $containerConfigurator): void {
+    $containerConfigurator->paths(['src']);
     $containerConfigurator->import(SetList::ARRAY);
     $containerConfigurator->import(SetList::COMMON);
     $containerConfigurator->import(SetList::CLEAN_CODE);
     $containerConfigurator->import(SetList::PSR_12);
     $containerConfigurator->import(SetList::SYMPLIFY);
-    $containerConfigurator->import(SetList::SYMFONY);
     $containerConfigurator->import(SetList::CONTROL_STRUCTURES);
-    $containerConfigurator->import(SetList::PHP_CS_FIXER);
+    $containerConfigurator->import(SetList::COMMENTS);
 
+    $containerConfigurator->rule(NoUnusedImportsFixer::class);
 
-    // Services
-    // --------------------------------------
+    $containerConfigurator->ruleWithConfiguration(CyclomaticComplexitySniff::class, ['absoluteComplexity' => 10]);
 
-    $services = $containerConfigurator->services();
+    $containerConfigurator->ruleWithConfiguration(UnusedVariableSniff::class, ['ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach' => true]);
 
-    $services->set(CyclomaticComplexitySniff::class)
-        ->property('absoluteComplexity', 10);
+    $containerConfigurator->rule(ReferenceThrowableOnlySniff::class);
 
-    $services->set(UnusedVariableSniff::class)
-        ->property('ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach', true);
+    $containerConfigurator->ruleWithConfiguration(ConcatSpaceFixer::class, ['spacing' => 'one']);
 
-    $services->set(ReferenceThrowableOnlySniff::class);
-    $services->set(DisallowImplicitArrayCreationSniff::class);
-    $services->set(RequireNullCoalesceOperatorSniff::class);
-    $services->set(RequireNullCoalesceEqualOperatorSniff::class);
-    $services->set(UselessAliasSniff::class);
-    $services->set(DisallowContinueWithoutIntegerOperandInSwitchSniff::class);
-    $services->set(UselessLateStaticBindingSniff::class);
-    $services->set(UselessVariableSniff::class);
-    $services->set(DuplicateAssignmentToVariableSniff::class);
-    $services->set(DeadCatchSniff::class);
-    $services->set(ClassMemberSpacingSniff::class);
-    $services->set(ModernClassNameReferenceSniff::class);
-    $services->set(LongTypeHintsSniff::class);
-    $services->set(NullTypeHintOnLastPositionSniff::class);
-    $services->set(ClassConstantVisibilitySniff::class);
-    $services->set(NullableTypeForNullDefaultValueSniff::class);
-    $services->set(MultipleUsesPerLineSniff::class);
-    $services->set(EmptyCommentSniff::class);
-    $services->set(DeprecatedAnnotationDeclarationSniff::class);
-    $services->set(RequireMultiLineMethodSignatureSniff::class)
-        ->property('minLineLength', 180);
+    // Method \App\Controller\Reservations\Operator\BanController::getActiveBans() does not have @return annotation for its traversable return value.
+    // Reported by: "MissingTraversableTypeHintSpecification"
+//        $containerConfigurator->rule(ReturnTypeHintSniff::class);
 
-    $services->set(CastSpacesFixer::class)
-        ->call('configure', [['space' => 'none']]);
+    $containerConfigurator->rule(DisallowImplicitArrayCreationSniff::class);
 
-    $services->set(NestingLevelSniff::class)
-        ->property('absoluteNestingLevel', 3);
+    $containerConfigurator->rule(RequireNullCoalesceOperatorSniff::class);
+    $containerConfigurator->rule(RequireNullCoalesceEqualOperatorSniff::class);
+    $containerConfigurator->rule(UselessAliasSniff::class);
+//    $containerConfigurator->rule(DisallowReferenceSniff::class);
+    $containerConfigurator->rule(DisallowContinueWithoutIntegerOperandInSwitchSniff::class);
+    $containerConfigurator->rule(UselessLateStaticBindingSniff::class);
+    $containerConfigurator->rule(UselessVariableSniff::class);
+    $containerConfigurator->rule(DuplicateAssignmentToVariableSniff::class);
+    $containerConfigurator->rule(DeadCatchSniff::class);
+    $containerConfigurator->rule(ClassMemberSpacingSniff::class);
+    $containerConfigurator->rule(ModernClassNameReferenceSniff::class);
+    $containerConfigurator->rule(LongTypeHintsSniff::class);
+    $containerConfigurator->rule(NullTypeHintOnLastPositionSniff::class);
+    $containerConfigurator->rule(ClassConstantVisibilitySniff::class);
+    $containerConfigurator->rule(NullableTypeForNullDefaultValueSniff::class);
+    $containerConfigurator->rule(MultipleUsesPerLineSniff::class);
+    $containerConfigurator->rule(EmptyCommentSniff::class);
+    $containerConfigurator->rule(ArrayIndentationFixer::class); // przesuwa wyrównanie tablic
+    $containerConfigurator->rule(DeprecatedAnnotationDeclarationSniff::class);
+    $containerConfigurator->ruleWithConfiguration(RequireMultiLineMethodSignatureSniff::class, ['minLineLength' => 180]);
 
-    $services->set(NoSuperfluousPhpdocTagsFixer::class);
-    $services->set(DeclareStrictTypesFixer::class);
+    $containerConfigurator->ruleWithConfiguration(TrailingCommaInMultilineFixer::class, [
+        'elements' => [
+            TrailingCommaInMultilineFixer::ELEMENTS_ARRAYS,
+            TrailingCommaInMultilineFixer::ELEMENTS_PARAMETERS,
+        ],
+    ]);
 
-    $parameters->set(Option::SKIP, [
-        NotOperatorWithSuccessorSpaceFixer::class   => null,
-        MethodChainingNewlineFixer::class   => null,
+    $containerConfigurator->ruleWithConfiguration(CastSpacesFixer::class, ['space' => 'none']);
+    $containerConfigurator->ruleWithConfiguration(NestingLevelSniff::class, ['absoluteNestingLevel' => 3]);
+    $containerConfigurator->rule(NoSuperfluousPhpdocTagsFixer::class);
+    $containerConfigurator->rule(\PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer::class); // TODO
+
+    $containerConfigurator->lineEnding("\n");
+    $containerConfigurator->indentation(Option::INDENTATION_SPACES);
+
+    $containerConfigurator->skip([
+        NotOperatorWithSuccessorSpaceFixer::class => null,
+        MethodChainingNewlineFixer::class => null,
     ]);
 };
+
+
