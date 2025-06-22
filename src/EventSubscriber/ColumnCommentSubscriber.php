@@ -7,6 +7,7 @@ namespace Dsnetpl\DoctrineColumnCommentBundle\EventSubscriber;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\ORM\Mapping\FieldMapping;
 use phpDocumentor\Reflection\DocBlockFactory;
 
 final class ColumnCommentSubscriber implements EventSubscriber
@@ -23,15 +24,16 @@ final class ColumnCommentSubscriber implements EventSubscriber
         $classMetadata = $loadClassMetadataEventArgs->getClassMetadata();
 
         foreach ($classMetadata->fieldMappings as $key => $f) {
-            if (isset($f['options']['comment'])) {
+            assert($f instanceof FieldMapping);
+            if (isset($f->options['comment'])) {
                 continue;
             }
 
-            if (!$classMetadata->getReflectionClass()->hasProperty($f['fieldName'])) {
+            if (!$classMetadata->getReflectionClass()->hasProperty($f->fieldName)) {
                 continue;
             }
 
-            $refl = $classMetadata->getReflectionClass()->getProperty($f['fieldName']);
+            $refl = $classMetadata->getReflectionClass()->getProperty($f->fieldName);
 
             $docComment = $refl->getDocComment();
             if (!$docComment) {
@@ -50,8 +52,7 @@ final class ColumnCommentSubscriber implements EventSubscriber
             $comment = implode('; ', array_filter([$summary, $desc]));
 
             if ($comment) {
-                $f['options']['comment'] = $comment;
-                $classMetadata->fieldMappings[$key] = $f;
+                $classMetadata->fieldMappings[$key]->options['comment'] = $comment;
             }
         }
     }
