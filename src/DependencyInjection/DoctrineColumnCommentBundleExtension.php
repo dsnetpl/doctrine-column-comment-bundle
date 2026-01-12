@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 class DoctrineColumnCommentBundleExtension extends Extension
 {
     /**
-     * @param string[] $configs
+     * @param array<array<mixed>> $configs
      */
     public function load(array $configs, ContainerBuilder $container): void
     {

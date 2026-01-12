@@ -7,12 +7,12 @@ namespace Dsnetpl\DoctrineColumnCommentBundle\EventSubscriber;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\ORM\Mapping\FieldMapping;
 use phpDocumentor\Reflection\DocBlockFactory;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 
 final class ColumnCommentSubscriber implements EventSubscriber
 {
-    private DocBlockFactory $factory;
+    private DocBlockFactoryInterface $factory;
 
     public function __construct()
     {
@@ -24,7 +24,6 @@ final class ColumnCommentSubscriber implements EventSubscriber
         $classMetadata = $loadClassMetadataEventArgs->getClassMetadata();
 
         foreach ($classMetadata->fieldMappings as $key => $f) {
-            assert($f instanceof FieldMapping);
             if (isset($f->options['comment'])) {
                 continue;
             }
