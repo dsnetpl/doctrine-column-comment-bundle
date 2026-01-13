@@ -19,7 +19,7 @@ jobs:
 
     - name: Cache Composer packages
       id: composer-cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: vendor
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -28,9 +28,9 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
-    
+
     - name: Easy Coding Standard
       run: ./vendor/bin/ecs
-      
+
     - name: Phpstan - level 8
       run: ./vendor/bin/phpstan analyze
