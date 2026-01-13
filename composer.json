@@ -6,7 +6,7 @@
     "description": "Modifying doctrine metadata so that doctrine knows that columns in the database have additional information - a comment.",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
+        "php": "^8.4",
         "ext-ctype": "*",
         "doctrine/doctrine-bundle": "^3.2",
         "doctrine/orm": "^3.6",
